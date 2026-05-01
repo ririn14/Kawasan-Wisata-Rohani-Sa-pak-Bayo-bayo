@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <title>Virtual Tour 360° | Wisata Rohani</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ===== NAVBAR ===== */
+        .navbar {
+            background-color: #740A03;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 60px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #fff;
+            font-weight: bold;
+            font-size: 16px;
+            padding-left: 20px;
+        }
+
+        .logo img {
+            height: 65px;
+        }
+
+        .nav-menu {
+            display: flex;
+        }
+
+        .nav-menu a {
+            color: #fff;
+            text-decoration: none;
+            padding: 0 20px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+        .navbar a:hover {
+            background-color: #5c0802;
+        }
+
+        .navbar a.active {
+            background-color: #3e0501;
+        }
+
+        /* ===== HAMBURGER ===== */
+        .hamburger {
+            display: none;
+            width: 30px;
+            height: 22px;
+            position: relative;
+            cursor: pointer;
+            margin-right: 20px;
+        }
+
+        .hamburger span {
+            position: absolute;
+            height: 3px;
+            width: 100%;
+            background: #fff;
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+
+        .hamburger span:nth-child(1) { top: 0; }
+        .hamburger span:nth-child(2) { top: 9px; }
+        .hamburger span:nth-child(3) { top: 18px; }
+
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg);
+            top: 9px;
+        }
+
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg);
+            top: 9px;
+        }
+
+        /* ===== CONTENT ===== */
+        .content {
+            flex: 1;
+        }
+
+        /* ===== HERO VIRTUAL ===== */
+        .hero-virtual {
+            background: linear-gradient(135deg, #3a0200 0%, #740A03 45%, #9c1505 75%, #b82010 100%);
+            min-height: 72vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 60px;
+            padding: 80px 60px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-virtual::before {
+            content: '';
+            position: absolute;
+            top: -30%; right: -15%;
+            width: 550px; height: 550px;
+            background: radial-gradient(circle, rgba(255,255,255,0.07) 0%, transparent 65%);
+            pointer-events: none;
+        }
+
+        .hero-virtual::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #ffd700, transparent);
+        }
+
+        .hero-content {
+            flex: 1;
+            max-width: 560px;
+            color: white;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255,255,255,0.12);
+            border: 1px solid rgba(255,255,255,0.25);
+            padding: 7px 18px;
+            border-radius: 50px;
+            font-size: 12px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            margin-bottom: 22px;
+        }
+
+        .hero-content h1 {
+            font-size: 50px;
+            font-weight: 900;
+            line-height: 1.05;
+            margin-bottom: 16px;
+            text-shadow: 0 2px 20px rgba(0,0,0,0.3);
+            letter-spacing: -1.5px;
+        }
+
+        .hero-content > p {
+            font-size: 15px;
+            line-height: 1.8;
+            opacity: 0.82;
+            margin-bottom: 30px;
+        }
+
+        .hero-stats {
+            display: flex;
+            align-items: center;
+            margin-bottom: 36px;
+            background: rgba(0,0,0,0.25);
+            padding: 16px 24px;
+            border-radius: 14px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .stat-item {
+            text-align: center;
+            flex: 1;
+        }
+
+        .stat-num {
+            display: block;
+            font-size: 28px;
+            font-weight: 900;
+            color: #ffd700;
+            line-height: 1;
+        }
+
+        .stat-label {
+            font-size: 10px;
+            opacity: 0.72;
+            letter-spacing: 0.5px;
+            margin-top: 4px;
+            display: block;
+        }
+
+        .stat-divider {
+            width: 1px;
+            height: 45px;
+            background: rgba(255,255,255,0.18);
+            margin: 0 10px;
+        }
+
+        .btn-enter {
+            display: inline-flex;
+            align-items: center;
+            gap: 14px;
+            background: #fff;
+            color: #740A03;
+            padding: 16px 38px;
+            border-radius: 50px;
+            font-weight: 800;
+            font-size: 15px;
+            text-decoration: none;
+            box-shadow: 0 10px 35px rgba(0,0,0,0.35);
+            transition: all 0.3s ease;
+            letter-spacing: 0.3px;
+        }
+
+        .btn-enter:hover {
+            background: #ffd700;
+            color: #3a0200;
+            transform: translateY(-3px);
+            box-shadow: 0 18px 50px rgba(0,0,0,0.45);
+        }
+
+        .btn-enter i { font-size: 20px; }
+
+        .hero-preview {
+            flex-shrink: 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .preview-frame {
+            width: 360px;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 30px 70px rgba(0,0,0,0.55);
+            position: relative;
+            border: 2px solid rgba(255,255,255,0.15);
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+
+        .preview-frame:hover {
+            transform: scale(1.03) rotate(-1deg);
+            box-shadow: 0 40px 80px rgba(0,0,0,0.65);
+        }
+
+        .preview-frame img { width: 100%; display: block; }
+
+        .preview-overlay {
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            padding: 22px;
+            background: linear-gradient(transparent, rgba(0,0,0,0.75));
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 700;
+            font-size: 13px;
+        }
+
+        .preview-overlay i { font-size: 18px; color: #ffd700; }
+
+        /* ===== FEATURES ===== */
+        .features-section {
+            padding: 60px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+            background: #f4f4f6;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 32px 24px;
+            border-radius: 18px;
+            text-align: center;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.07);
+            transition: all 0.35s ease;
+            border-bottom: 4px solid transparent;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 50px rgba(116,10,3,0.18);
+            border-bottom-color: #740A03;
+        }
+
+        .feature-icon {
+            width: 68px;
+            height: 68px;
+            background: linear-gradient(135deg, #740A03, #c41a0d);
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 18px;
+            font-size: 27px;
+            color: white;
+            box-shadow: 0 10px 25px rgba(116,10,3,0.35);
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover .feature-icon {
+            transform: scale(1.1) rotate(-4deg);
+        }
+
+        .feature-card h3 {
+            font-size: 16px;
+            color: #1a1a1a;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .feature-card p {
+            font-size: 13px;
+            color: #777;
+            line-height: 1.65;
+        }
+
+        @media (max-width: 900px) {
+            .hero-virtual {
+                flex-direction: column;
+                padding: 60px 30px;
+                text-align: center;
+                min-height: auto;
+            }
+            .hero-preview { display: none; }
+            .features-section {
+                grid-template-columns: repeat(2, 1fr);
+                padding: 40px 24px;
+            }
+        }
+
+        @media (max-width: 560px) {
+            .hero-content h1 { font-size: 34px; }
+            .features-section { grid-template-columns: 1fr; }
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            background-color: #2f3337;
+            color: #fff;
+            padding: 40px 60px;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 40px;
+        }
+
+        .footer-left {
+            display: flex;
+            align-items: center;
+        }
+
+        .footer-left img {
+            height: 90px;
+            transition: transform 0.3s ease;
+        }
+
+        .footer-left img:hover {
+        transform: scale(1.05);
+        }
+
+        .footer-center {
+            flex: 1;
+            text-align: center;
+        }
+
+        .footer-center h3 {
+            margin-bottom: 15px;
+            font-size: 15px;
+            letter-spacing: 1px;
+        }
+
+        .footer-right {
+            display: flex;
+            gap: 20px;
+        }
+
+        .footer-right a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+        .footer-right a:hover {
+            text-decoration: underline;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+
+            .hamburger {
+                display: flex;
+            }
+
+            .nav-menu {
+                position: absolute;
+                top: 60px;
+                right: 0;
+                width: 100%;
+                background-color: #740A03;
+                flex-direction: column;
+                display: none;
+            }
+
+            .nav-menu.show {
+                display: flex;
+            }
+
+            .nav-menu a {
+                height: 50px;
+                justify-content: center;
+                border-top: 1px solid #740A03;
+            }
+
+            .footer-container {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+            .footer-left,
+            .footer-right {
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<div class="navbar">
+    <div class="logo">
+        <img src="logo sbb yes.png" alt="Logo">
+        <span>Wisata Rohani</span>
+    </div>
+
+    <div class="hamburger" onclick="toggleMenu()">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+
+    <div class="nav-menu" id="navMenu">
+        <a href="dashboard.html">Beranda</a>
+        <a href="sejarah.html">Sejarah</a>
+        <a href="virtual.html" class="active">Virtual Tour 360°</a>
+        <a href="aturan.html">Aturan Kawasan</a>
+    </div>
+</div>
+
+<!-- CONTENT -->
+<div class="content">
+
+    <div class="hero-virtual">
+        <div class="hero-content">
+            <div class="hero-badge">
+                <i class="fas fa-camera-rotate"></i>&nbsp; Pengalaman 360°
+            </div>
+            <h1>Virtual Tour 360°</h1>
+            <p>Jelajahi Pusat Ziarah Keluarga Kudus Nazareth Sakpak Bayo-Bayo secara virtual — dari Jalan Salib, Gereja, hingga Taman Devosi & Misteri Gembira.</p>
+            <div class="hero-stats">
+                <div class="stat-item">
+                    <span class="stat-num">31</span>
+                    <span class="stat-label">Titik Lokasi</span>
+                </div>
+                <div class="stat-divider"></div>
+                <div class="stat-item">
+                    <span class="stat-num">14</span>
+                    <span class="stat-label">Stasi Jalan Salib</span>
+                </div>
+                <div class="stat-divider"></div>
+                <div class="stat-item">
+                    <span class="stat-num">360°</span>
+                    <span class="stat-label">Panorama Penuh</span>
+                </div>
+            </div>
+            <a href="virtual/app-files/index.html" class="btn-enter" id="btnStartVirtualTour">
+                <i class="fas fa-vr-cardboard"></i>
+                Mulai Virtual Tour
+            </a>
+        </div>
+        <div class="hero-preview">
+            <div class="preview-frame">
+                <img src="virtual/app-files/img/map baru.png" alt="Peta Kawasan Wisata Rohani">
+                <div class="preview-overlay">
+                    <i class="fas fa-map-marked-alt"></i>
+                    Peta Kawasan Wisata Rohani
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="features-section">
+        <div class="feature-card">
+            <div class="feature-icon"><i class="fas fa-route"></i></div>
+            <h3>Jalan Salib</h3>
+            <p>14 Stasi perjalanan Yesus dari penghukuman hingga pemakaman yang penuh makna dan refleksi rohani</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon"><i class="fas fa-church"></i></div>
+            <h3>Gereja & Kapel</h3>
+            <p>Gereja utama dan Kapel Gua Kebangkitan yang sakral dan memukau setiap peziarah</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon"><i class="fas fa-dove"></i></div>
+            <h3>Taman Devosi</h3>
+            <p>Area renungan dengan patung Malaikat Agung dan Keluarga Kudus Nazaret yang indah</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon"><i class="fas fa-home"></i></div>
+            <h3>Fasilitas</h3>
+            <p>Wisma, Gedung Serba Guna, Kantor Pengelola, dan Cafe tersedia lengkap untuk peziarah</p>
+        </div>
+    </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+    <div class="footer-container">
+
+        <div class="footer-left">
+            <img src="logo sbb yes.png" alt="logo">
+            <img src="logo yayasan harta.png" alt="logo2">
+        </div>
+
+        <div class="footer-center">
+            <h3>TENTANG KAMI</h3>
+            <p>
+                Pusat Ziarah Keluarga Kudus Nazareth Sakpak Bayo-Bayo, <br>Lembang Saluallo, Kec. Sangalla'Utara,Kab. Tana Toraja<br>
+                <br>
+                Telepon: +62 877-2401-1169
+            </p>
+        </div>
+
+        <div class="footer-right">
+            <a href="https://www.instagram.com/sakpak.bayo_bayo/" target="_blank">
+                <i class="fab fa-instagram"></i> Instagram
+            </a>
+        </div>
+    </div>
+</footer>
+
+<script>
+function toggleMenu() {
+    document.getElementById("navMenu").classList.toggle("show");
+    document.querySelector(".hamburger").classList.toggle("active");
+}
+</script>
+
+</body>
+</html>

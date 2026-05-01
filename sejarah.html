@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <title>Sejarah | Wisata Rohani</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ===== NAVBAR ===== */
+        .navbar {
+            background-color: #740A03;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 60px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #fff;
+            font-weight: bold;
+            font-size: 16px;
+            padding-left: 20px;
+        }
+
+        .logo img {
+            height: 65px;
+        }
+
+        .nav-menu {
+            display: flex;
+        }
+
+        .nav-menu a {
+            color: #fff;
+            text-decoration: none;
+            padding: 0 20px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+        .navbar a:hover {
+            background-color: #5c0802;
+        }
+
+        .navbar a.active {
+            background-color: #3e0501;
+        }
+
+        /* ===== HAMBURGER ===== */
+        .hamburger {
+            display: none;
+            width: 30px;
+            height: 22px;
+            position: relative;
+            cursor: pointer;
+            margin-right: 20px;
+        }
+
+        .hamburger span {
+            position: absolute;
+            height: 3px;
+            width: 100%;
+            background: #fff;
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+
+        .hamburger span:nth-child(1) { top: 0; }
+        .hamburger span:nth-child(2) { top: 9px; }
+        .hamburger span:nth-child(3) { top: 18px; }
+
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg);
+            top: 9px;
+        }
+
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg);
+            top: 9px;
+        }
+        .hamburger span {transition: all 0.3s ease;}
+
+        /* ===== CONTENT ===== */
+        .content {
+            flex: 1;
+        }
+
+        /* ===== HERO / BANNER ===== */
+        .hero {
+            background-color: #e0e0e0;
+            padding: 60px 40px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 26px;
+        }
+
+        /* ===== SEJARAH ===== */
+        .sejarah-wrapper {
+            max-width: 1100px;
+            margin: 60px auto;
+            padding: 0 20px;
+        }
+
+        .sejarah-left {
+            width: 100%;
+            margin: 60px auto 20px auto;
+            text-align: center;
+        }
+
+        .sejarah-left img {
+            width: 100%;
+            height: auto;
+            display: block;
+            object-fit: cover;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .caption {
+            font-style: italic;
+            font-size: 14px;
+            margin-top: 10px;
+            color: #555;
+        }
+
+        .sejarah-right {
+            flex: 1.2;
+            line-height: 1.8;
+            font-size: 15px;
+            text-align: justify;
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            background-color: #2f3337;
+            color: #fff;
+            padding: 40px 60px;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 40px;
+        }
+
+        .footer-left {
+            display: flex;
+            align-items: center;
+        }
+
+        .footer-left img {
+            height: 90px;
+            transition: transform 0.3s ease;
+        }
+
+        .footer-left img:hover {
+            transform: scale(1.05);
+        }
+
+        .footer-center {
+            flex: 1;
+            text-align: center;
+        }
+
+        .footer-center h3 {
+            margin-bottom: 15px;
+            font-size: 15px;
+            letter-spacing: 1px;
+        }
+
+        .footer-right {
+            display: flex;
+            gap: 20px;
+        }
+
+        .footer-right a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+        .footer-right a:hover {
+            text-decoration: underline;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+
+            .hamburger {
+                display: flex;
+            }
+
+            .nav-menu {
+                position: absolute;
+                top: 60px;
+                right: 0;
+                width: 100%;
+                background-color: #740A03;
+                flex-direction: column;
+                display: none;
+            }
+
+            .nav-menu.show {
+                display: flex;
+            }
+
+            .nav-menu a {
+                height: 50px;
+                justify-content: center;
+                border-top: 1px solid #740A03;
+            }
+
+            .footer-container {
+                flex-direction: column;
+                text-align: center;
+                align-items: center;
+            }
+            .footer-left,
+            .footer-right {
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+            .sejarah-wrapper {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .sejarah-right {
+            text-align: justify;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<div class="navbar">
+    <div class="logo">
+        <img src="logo sbb yes.png">
+        <span>Wisata Rohani</span>
+    </div>
+
+    <div class="hamburger" onclick="toggleMenu()">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+
+    <div class="nav-menu" id="navMenu">
+        <a href="dashboard.html">Beranda</a>
+        <a href="sejarah.html" class="active">Sejarah</a>
+        <a href="virtual.html">Virtual Tour 360°</a>
+        <a href="aturan.html">Aturan Kawasan</a>
+    </div>
+</div>
+
+<!-- CONTENT -->
+<div class="sejarah-container">
+
+    <div class="sejarah-wrapper">
+        
+        <div class="sejarah-left">
+            <img src="Time Line SBB.jpeg" alt="Timeline">
+            <p class="caption">
+                Timeline Pusat Ziarah Keluarga Kudus Nazaret di Sakpak Bayo-Bayo, Sangalla Utara, Tana Toraja.
+            </p>
+        </div>
+
+        <div class="sejarah-right">
+
+    <p>
+        Jauh sebelum dikenal sebagai pusat ziarah Katolik, Sa’pak Bayobayo telah 
+        menjadi situs sakral dalam kepercayaan lokal masyarakat Toraja, yaitu 
+        Aluk To Dolo. Kawasan ini diyakini memiliki kekuatan spiritual dan 
+        kerap didatangi masyarakat untuk tujuan ritual serta pengambilan air 
+        dari mata air alami yang terdapat di kawasan tersebut. Tidak ada catatan 
+        pasti sejak kapan praktik religius ini dimulai, namun sebelum abad ke-21 
+        lokasi ini telah memiliki nilai religius yang tinggi dalam budaya Toraja.
+    </p>
+
+    <br>
+
+    <p>
+        Secara etimologis, “Sa’pak” berarti menangkap atau mencengkeram, 
+        sedangkan “Bayobayo” berarti bayangan. Dengan demikian, Sa’pak Bayobayo 
+        dapat dimaknai sebagai “menangkap bayangan”, yang dalam konteks spiritual 
+        diartikan sebagai tempat menangkap harapan, doa, dan rahmat Tuhan.
+    </p>
+
+    <br>
+
+    <p>
+        Keunikan kawasan ini terletak pada bentang alamnya yang memukau: lembah 
+        tersembunyi, tebing karst yang menjulang, gua alam dengan stalaktit dan 
+        stalagmit, sungai bawah tanah, serta keberadaan makam kuno khas Toraja. 
+        Kekayaan alam dan budaya ini menjadi fondasi spiritual sekaligus identitas 
+        khas tempat ziarah ini.
+    </p>
+
+    <br><br>
+
+    <p>
+        Setelah pembentukan panitia pembangunan dengan Ketua (Almh.) Laksamana 
+        Muda TNI Christina Maria Rantetana, dilakukan proses seleksi lokasi 
+        secara sistematis. Tercatat terdapat 12 usulan lokasi yang masuk. 
+        Setelah melalui seleksi administratif dan survei lapangan, tersisa 
+        dua lokasi kandidat.
+    </p>
+
+    <br>
+
+    <p>
+        Pada 29 Agustus 2014, dalam rapat panitia di Restoran Sari Kuring SCBD 
+        Jakarta, Sa’pak Bayobayo resmi diputuskan sebagai lokasi terpilih. 
+        Lokasi ini diusulkan oleh Mgr. John Liku Ada’, Uskup Agung Keuskupan 
+        Agung Makassar (KAMS), yang memiliki kedekatan historis dengan kawasan 
+        tersebut. Dalam literasi yang menyertai usulan berjudul 
+        “Sa’pak Bayobayo: Sebuah Kisah Karya Penyelamatan Tuhan” (2014), 
+        beliau memaparkan visi dan misi kawasan ini sebagai pusat devosi 
+        berciri khas Toraja.
+    </p>
+
+    <br>
+
+    <p>
+        Keputusan tersebut menjadi fondasi resmi dimulainya proses perintisan 
+        pembangunan kawasan ziarah.
+    </p>
+
+    <br><br>
+
+    <p>
+        Setelah melalui proses perencanaan dan penggalangan dukungan dana dari 
+        berbagai pihak — termasuk Fukatnus (Forum Umat Katolik Toraja Nusantara), 
+        kelompok umat dari Surabaya yang dikoordinir oleh Welem Elimkusuma, serta 
+        PUKAT Nasional yang dipimpin oleh Julius Yunus Tedja — pembangunan fisik 
+        akhirnya dimulai.
+    </p>
+
+    <br>
+
+    <p>
+        Tanggal 30 Desember 2016 menjadi tonggak penting dengan dilaksanakannya 
+        peletakan batu pertama pembangunan tempat ziarah. Momentum ini menandai 
+        peralihan dari tahap konseptual menuju tahap konkret pembangunan fisik 
+        kawasan Sa’pak Bayobayo sebagai pusat ziarah Keluarga Kudus Nazaret.
+    </p>
+
+    <br><br>
+
+    <p>
+        Pada 31 Desember 2017 dilakukan pentakhtaan dan pemberkatan maskot 
+        berupa Patung Keluarga Kudus Nazaret dalam kostum adat Toraja. 
+        Pemilihan figur Keluarga Kudus (Yesus, Maria, dan Yosef) menjadi ciri khas 
+        yang membedakan Sa’pak Bayobayo dari banyak tempat ziarah lain di Indonesia 
+        yang umumnya berfokus pada devosi kepada Bunda Maria saja.
+    </p>
+
+    <br>
+
+    <p>
+        Tema besar yang diusung adalah:
+        <strong>“Harmoni Semesta Berbasis Keluarga.”</strong>
+    </p>
+
+    <br><br>
+
+    <p>
+        Tanggal 3 Juli 2018 menjadi puncak peristiwa historis. Dalam rangkaian 
+        Perayaan 80 Tahun Baptisan Pertama Katolik di Toraja, Pusat Ziarah 
+        Keluarga Kudus Nazaret Sa’pak Bayobayo diresmikan oleh Mgr. John Liku Ada’ 
+        (Uskup Agung KAMS) dan Bupati Tana Toraja. Pada momen yang sama, Fukatnus 
+        secara resmi menyerahkan pengelolaan Sa’pak Bayobayo kepada Keuskupan 
+        Agung Makassar.
+    </p>
+
+    <br>
+
+    <p>
+        Sejak saat itu, Sa’pak Bayobayo resmi menjadi milik dan bagian dari 
+        pelayanan pastoral Keuskupan Agung Makassar.
+    </p>
+
+    <br><br>
+
+    <p>
+        Sejarah Sa’pak Bayobayo terdokumentasi dengan baik melalui tulisan 
+        beberapa tokoh, antara lain Michael Andin sebagai penggagas awal, 
+        RD. Cornell R. Tandiayuk, RD. Ferry S. Wijaya, Mgr. Fransiskus Nipa, 
+        serta Mgr. John Liku Ada’. Melalui refleksi dan tulisan mereka, 
+        kawasan ini tidak hanya dipahami sebagai tempat ziarah, tetapi juga 
+        sebagai pusat spiritualitas keluarga dan ekologi berciri khas Toraja.
+    </p>
+
+    <br><br>
+
+    <p><strong>Secara kronologis, sejarah Sa’pak Bayobayo dapat diringkas sebagai berikut:</strong></p>
+
+    <br>
+
+    <ul style="line-height:1.8; margin-left:20px;">
+        <li>Pra-2013: Situs sakral Aluk To Dolo</li>
+        <li>9 Juni 2013: Gagasan pembangunan dicetuskan</li>
+        <li>29 Agustus 2014: Lokasi resmi dipilih</li>
+        <li>30 Desember 2016: Peletakan batu pertama</li>
+        <li>31 Desember 2017: Pentakhtaan maskot</li>
+        <li>3 Juli 2018: Peresmian resmi</li>
+        <li>27 September 2020: Peletakan batu pertama gereja utama</li>
+        <li>2022: Pembentukan Yayasan Harmoni Semesta Berbasis Keluarga</li>
+    </ul>
+
+    <br><br>
+
+    <p>
+        Sa’pak Bayobayo bukan sekadar destinasi wisata rohani, melainkan buah 
+        refleksi panjang iman, budaya, dan solidaritas perantau Katolik Toraja. 
+        Dari sebuah gagasan sederhana pada tahun 2013, dalam waktu lima tahun 
+        terwujud sebuah pusat ziarah yang kini dikenal luas hingga mancanegara.
+    </p>
+
+    <br>
+
+    <p style="font-style: italic; font-weight: bold;">
+        “Dari Toraja untuk Dunia: Harmoni Semesta Berbasis Keluarga.”
+    </p>
+
+</div>
+
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+    <div class="footer-container">
+
+        <div class="footer-left">
+            <img src="logo sbb yes.png" alt="logo">
+            <img src="logo yayasan harta.png" alt="logo2">
+        </div>
+
+        <div class="footer-center">
+            <h3>TENTANG KAMI</h3>
+            <p>
+                Pusat Ziarah Keluarga Kudus Nazareth Sakpak Bayo-Bayo, <br>Lembang Saluallo, Kec. Sangalla'Utara,Kab. Tana Toraja<br>
+                <br>
+                Telepon: +62 877-2401-1169
+            </p>
+        </div>
+
+        <div class="footer-right">
+            <a href="https://www.instagram.com/sakpak.bayo_bayo/" target="_blank"><i class="fab fa-instagram"></i> Instagram</a>
+        </div>
+
+    </div>
+</footer>
+
+<script>
+function toggleMenu() {
+    document.getElementById("navMenu").classList.toggle("show");
+    document.querySelector(".hamburger").classList.toggle("active");
+}
+</script>
+
+</body>
+</html>
